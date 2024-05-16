@@ -1,0 +1,91 @@
+import os.path
+from os import path
+from pickle import FALSE
+
+def Menu():
+    global option
+    option = str(input("1.Add New Student\n2.Check Information\n3.Modify/Delete Information"))
+    CheckOption()
+    
+    match option:
+        case option if int(option) == 1:
+            Add()
+        case option if int(option) == 2:
+            CheckInfo()
+        case option if int(option) == 3:
+            Change()
+  
+def CheckOption():
+    optionlen = len(option)
+    if optionlen != 1:
+        print("Invalid")
+        Menu()
+    else:
+        optionlist = list(option)
+        for i in range(0,len(option)):
+            newnum = ord(optionlist[i])
+            if (newnum < 49 or newnum > 51):
+                print("Invalid")
+                Menu()
+def Add():
+    AddInfo()
+    
+def AddInfo():
+    Askname()
+    
+def Askname():
+    global fullname
+    Askfname()
+    Asklname()
+    
+    fullname = lname + " " + fname
+    
+def Askfname():
+    global fname
+    fname = str(input("Enter the student's first name."))
+    fname = fname.upper()
+    CheckName(fname)
+    if correct == "flase":
+        print("It'sinvalid, PLease try again")
+        Askfname()
+    else:
+        fname = fname.capitalize()
+    
+def Asklname():
+    global lname
+    lname = str(input("Enter the student's last name."))
+    lname = lname.upper()
+    CheckName(lname)
+    if correct == "false":
+        print("It'sinvalid, PLease try again")
+        Asklname()
+    else:
+        lname = lname.capitalize()
+    
+def CheckName(name):
+    global correct
+    namelen = len(name)
+    if namelen == 0:
+        print("Invalid")
+        correct = "false"
+        return correct
+    else:
+        namelist = list(name)
+        for i in range (0, namelen):
+            newname = ord(namelist[i])
+            if newname < 65 or newname > 90:
+                print("Invalid")
+                correct = "false"
+                return correct
+    
+def CheckInfo():
+    print("Check")
+    
+def Change():
+    print("Change")
+    
+def main():
+    Menu()
+
+if __name__ == "__main__":
+    main()
