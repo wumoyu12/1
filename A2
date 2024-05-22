@@ -4,14 +4,11 @@ Start Date: May 2, 2024
 End Date:
 Description-
 '''
-import os.path
-from os import path
-
 def Menu():
     global option
     option = str(input("1.Add New Student\n2.Check Information\n3.Modify/Delete Information"))
     Checkoption()
-    
+
     match option:
         case option if int(option) == 1:
             Add()
@@ -55,7 +52,7 @@ def CheckID():
 def Checkfile():
     global ifexists
     ifexists = bool(path.exists(filename))
-    
+
 def Add():
     AskID()
     if ifexists == False:
@@ -84,7 +81,7 @@ def Askfname():
         Askfname()
     else:
         fname = fname.capitalize()
-    
+
 def Asklname():
     global lname, ifcorrect
     lname = str(input("Enter the student's last name."))
@@ -96,7 +93,7 @@ def Asklname():
         Asklname()
     else:
         lname = lname.capitalize()
-    
+
 def Checkname(name):
     namelen = len(name)
     if namelen == 0:
@@ -116,14 +113,91 @@ def Checkname(name):
 
 def ScheAndReportC():
     global addoption
-    addoption = str(input("Do you like add Schedule or Report Card."))
+    addoption = str(input("Do you like add Schedule(Enter 1) or Report Card(Enter 2)."))
     CheckAddOption()
+
+    match addoption:
+        case addoption if int(option) == 1:
+            Schedule()
+        case addoption if int(option) == 2:
+            ReportCard()
+
+def ReportCard():
+    global howmany, CourseList, GradeList
+    howmany = str(input("How many course do you want to enter(Maximum 8 courses)?"))
+    Checkhowmany()
+    count = int(howmany)
+    CourseList = []
+    GradeList = []
+    while count != 0:
+        AskCourse()
+        Askgrade()
+
+def AskCourse():
+    global course
+    course = str(input("Enter the course name."))
+    Checkcourse()
+    CourseList.append(course)
+
+def Checkcourse():
+    courselen = len(course)
+    if courselen == 0:
+        print("Invalid")
+        AskCourse()
+    else:
+        courselist = list(course)
+        for i in range (0, courselen):
+            newcourse = ord(courselist[i])
+            if newcourse < 65 or newcourse > 90:
+                print("Invalid")
+                AskCourse()
+
+def Askgrade():
+    global grade 
+    grade = str(input("Enter the grade."))
+    Checkgrade()
+
+def Checkgrade():
+    gradelen = len(grade)
+    if gradelen == 0 or gradelen >= 4:
+        print("Invalid")
+        Askgrade()
+    else:
+        for i in range (0, gradelen):
+            newnum = ord(grade[i])
+            if (newnum < 48 or newnum > 57):
+                print("Invalid")
+                Askgrade()
+    
+
+def Checkhowmany():
+    howmanylen = len(howmany)
+    if howmanylen != 1:
+        print("Invalid")
+        ReportCard()
+    else:
+        ordoption = ord(howmany)
+        howmanylist = list(howmany)
+        for i in range(0,len(howmany)):
+            newnum = ord(howmanylist[i])
+            if (newnum < 49 or newnum > 56):
+                print("Invalid")
+                ReportCard()
     
 def CheckAddOption():
     numlen = len(addoption)
     if numlen != 1:
         print("invalid")
-    
+        ScheAndReportC()
+    else:
+        ordoption = ord(option)
+        optionlist = list(option)
+        for i in range(0,len(option)):
+            newnum = ord(optionlist[i])
+            if (newnum < 49 or newnum > 50):
+                print("Invalid")
+                ScheAndReportC()
+
 def CheckInfo():
     AskID()
     if ifexists == True:
@@ -133,7 +207,7 @@ def CheckInfo():
     else:
         print("This student has not been added.")
         Menu()
-        
+
 
 def Change():
     global choice
@@ -147,7 +221,7 @@ def Change():
     else:
         print("This student has not been added.")
         Menu()
-        
+
     match choice:
         case option if int(option) == 1:
             Modify()
@@ -173,7 +247,7 @@ def Checkchoice():
             if (newnum < 49 or newnum > 50):
                 print("Invalid")
                 Change()
-    
+
 def main():
     Menu()
 
