@@ -1,11 +1,16 @@
+'''
+Names: Moyu Wu, Jovanna
+Start Date: May 2, 2024
+End Date:
+Description-
+'''
 import os.path
 from os import path
-from pickle import FALSE
 
 def Menu():
     global option
     option = str(input("1.Add New Student\n2.Check Information\n3.Modify/Delete Information"))
-    CheckOption()
+    Checkoption()
     
     match option:
         case option if int(option) == 1:
@@ -14,75 +19,160 @@ def Menu():
             CheckInfo()
         case option if int(option) == 3:
             Change()
-  
-def CheckOption():
+
+def Checkoption():
     optionlen = len(option)
     if optionlen != 1:
         print("Invalid")
         Menu()
     else:
+        ordoption = ord(option)
         optionlist = list(option)
         for i in range(0,len(option)):
             newnum = ord(optionlist[i])
             if (newnum < 49 or newnum > 51):
                 print("Invalid")
                 Menu()
+def AskID():
+    global ID, filename
+    ID = str(input("Please enter student ID:"))
+    CheckID()
+    filename = ID + ".txt"
+    Checkfile()
+
+def CheckID():
+    IDlen = len(ID)
+    if IDlen != 9:
+        print("Invalid")
+        AskID()
+    else:
+        for i in range(0,len(ID)):
+            newnum = ord(ID[i])
+            if (newnum < 48 or newnum > 57):
+                print("Invalid")
+                AskID()
+
+def Checkfile():
+    global ifexists
+    ifexists = bool(path.exists(filename))
+    
 def Add():
-    AddInfo()
-    
-def AddInfo():
-    Askname()
-    
+    AskID()
+    if ifexists == False:
+        Askname()
+        ScheAndReportC()
+    else:
+        print("This student has already been added.")
+        print("The following is the student's information:")
+        CheckInfo()
+
 def Askname():
     global fullname
     Askfname()
     Asklname()
-    
-    fullname = lname + " " + fname
-    
+    fullname = fname + " " + lname
+    print(fullname)
+
 def Askfname():
-    global fname
+    global fname, ifcorrect
     fname = str(input("Enter the student's first name."))
     fname = fname.upper()
-    CheckName(fname)
-    if correct == "flase":
-        print("It'sinvalid, PLease try again")
+    ifcorrect = fname
+    Checkname(fname)
+    #Back !
+    if ifcorrect == "false":
         Askfname()
     else:
         fname = fname.capitalize()
     
 def Asklname():
-    global lname
+    global lname, ifcorrect
     lname = str(input("Enter the student's last name."))
     lname = lname.upper()
-    CheckName(lname)
-    if correct == "false":
-        print("It'sinvalid, PLease try again")
+    ifcorrect = fname
+    Checkname(lname)
+    #Back !
+    if ifcorrect == "false":
         Asklname()
     else:
         lname = lname.capitalize()
     
-def CheckName(name):
-    global correct
+def Checkname(name):
     namelen = len(name)
     if namelen == 0:
         print("Invalid")
-        correct = "false"
-        return correct
+        #Back to Askname
+        ifcorrect == "false"
+        return ifcorrect
     else:
         namelist = list(name)
         for i in range (0, namelen):
             newname = ord(namelist[i])
             if newname < 65 or newname > 90:
                 print("Invalid")
-                correct = "false"
-                return correct
+                #Back to Askname
+                ifcorrect == "false"
+                return ifcorrect
+
+def ScheAndReportC():
+    global addoption
+    addoption = str(input("Do you like add Schedule or Report Card."))
+    CheckAddOption()
+    
+def CheckAddOption():
+    numlen = len(addoption)
+    if numlen != 1:
+        print("invalid")
     
 def CheckInfo():
-    print("Check")
-    
+    AskID()
+    if ifexists == True:
+        pythfile = open(filename, "r")
+        print(pythfile.read())
+        pythfile.close()
+    else:
+        print("This student has not been added.")
+        Menu()
+        
+
 def Change():
-    print("Change")
+    global choice
+    AskID()
+    if ifexists == True:
+        pythfile = open(filename, "r")
+        print(pythfile.read())
+        pythfile.close()
+        choice = str(input("1.Modify\n2.Delete all information about this student"))
+        Checkchoice()
+    else:
+        print("This student has not been added.")
+        Menu()
+        
+    match choice:
+        case option if int(option) == 1:
+            Modify()
+        case option if int(option) == 2:
+            Delete()
+
+def Modify():
+    print("Modify")
+
+def Delete():
+    os.remove(filename)
+
+def Checkchoice():
+    choicelen = len(choice)
+    if choicelen != 1:
+        print("Invalid")
+        Change()
+    else:
+        ordoption = ord(choice)
+        choicelist = list(choice)
+        for i in range(0,len(choice)):
+            newnum = ord(choicelist[i])
+            if (newnum < 49 or newnum > 50):
+                print("Invalid")
+                Change()
     
 def main():
     Menu()
