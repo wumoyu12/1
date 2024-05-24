@@ -66,6 +66,7 @@ def Askname():
     Asklname()
     fullname = fname + " " + lname
     print(fullname)
+    Counselor()
 
 def Askfname():
     global fname, ifcorrect
@@ -87,6 +88,16 @@ def Asklname():
     else:
         lname = lname.capitalize()
 
+def Counselor():
+    counselor = str(input("What is the name of counselor?"))
+    counselor = counselor.upper()
+    Checkname(counselor)
+    if ifcorrect == "false":
+        Counselor()
+    else:
+        counselor = counselor.capitalize()
+
+    
 def Checkname(name):
     namelen = len(name)
     if namelen == 0:
@@ -145,34 +156,47 @@ def Askweekday():
     Checkweekd()
     AskWcourse()
     AskTime()
+    AskRoom()
+
+def AskRoom():
+    global room
+    room = str(input("What is the room number?"))
+    CheckRoom()
+
+def CheckRoom():
+    roomlen = len(room)
+    if roomlen != 3:
+        prin("Invalid")
+        AskRoom()
+    else:
+        for i in range(0,roomlen):
+            newnum = ord(room[i])
+            if newnume < 48 or newnum > 57:
+                print("Invalid")
+                AskRoom()
 
 def AskTime():
-    stime = str(input("Enter the start time of the class(HH:MM)"))
-    ifcorrect = Checktime(stime)
-    if ifcorrect == "false":
-        AskTime()
-    else:
-        Asketime()
+    shtime = str(input("Enter the start time of the class(Hour (24 hour format)))"))
+    CheckHtime(shtime)
 
 def Asketime():
-    etime = str(input("Enter the end time of the class(HH:MM)"))
-    ifcorrect = Checktime(etime)
-    if ifcorrect == "false":
-        Asketime()
+    ehtime = str(input("Enter the end time of the class(Hour (24 hour format))"))
+    CheckHtime(ehtime)
+    ehour = int(etime)
+    emtime = str(input("Enter the end time of the class(Minute (0-60))"))
 
-def Checktime(time):
-    lentime = len(time)
-    if lentime != 5:
+def CheckHtime(time):
+    timelen = len(time)
+    if timelen != 2:
         print("Invalid")
-        ifcorrect = "false"
-        return ifcorrect
+        AskTime()
     else:
-        ordtime = ord(time)
-        for i in range (3,3):
-            if ordtime[i] != 58:
-                ifcorrect = "false"
-                return ifcorrect
-    
+        for i in range(0,timelen):
+            newnum = ord(time[i])
+            if newnum < 48 or newnum > 57:
+                print("Invalid")
+                AskTime()
+
 def Checkweekd():
     weekdlen = len(weekd)
     if weekdlen != 1:
