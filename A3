@@ -161,7 +161,17 @@ def Asketime():
         Asketime()
 
 def Checktime(time):
-    print("Checktime")
+    lentime = len(time)
+    if lentime != 5:
+        print("Invalid")
+        ifcorrect = "false"
+        return ifcorrect
+    else:
+        ordtime = ord(time)
+        for i in range (3,3):
+            if ordtime[i] != 58:
+                ifcorrect = "false"
+                return ifcorrect
     
 def Checkweekd():
     weekdlen = len(weekd)
