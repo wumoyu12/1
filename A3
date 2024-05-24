@@ -189,12 +189,20 @@ def AskWcourse():
             
         
 def ReportCard():
+    average = 0
     howmany = str(input("How many course do this student want to enter(Maximum 8 courses)?"))
     ifcorrect = Checkhowmany(howmany)
+    if ifcorrect == "false":
+        print("Invalid")
+        ReportCard()
     count = int(howmany)
     while count != 0:
         AskCourse()
         Askgrade()
+        average = average + grade
+        count = count - 1
+
+    average = average / int(howmany)
 
 def AskCourse():
     global course
@@ -211,13 +219,16 @@ def Askgrade():
 
 def Checkgrade():
     gradelen = len(grade)
-    if gradelen == 0 or gradelen >= 4:
+    if gradelen == 0 or gradelen <= 4:
         print("Invalid")
         Askgrade()
     else:
         for i in range (0, gradelen):
             newnum = ord(grade[i])
             if (newnum < 48 or newnum > 57):
+                print("Invalid")
+                Askgrade()
+            elif int(grade) > 100 or int(grade) < 0:
                 print("Invalid")
                 Askgrade()
 
